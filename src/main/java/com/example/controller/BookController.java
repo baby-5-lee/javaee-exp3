@@ -5,16 +5,16 @@ import com.example.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
     @Resource
     private BookService bookService;
 
-    @GetMapping({"/getBooks/{keywords}","/getBooks"})
-    public List<BookDetail> getBooks(@PathVariable(required = false) String keywords){
-        return bookService.listBooks(keywords);
+    @GetMapping({"/getBooks/{keywords}/{currentPage}/{pageSize}","/getBooks/{currentPage}/{pageSize}"})
+    public Map<String, Object> getBooks(@PathVariable(required = false) String keywords, @PathVariable Integer currentPage, @PathVariable Integer pageSize){
+        return bookService.listBooks(keywords,currentPage,pageSize);
     }
     @PutMapping("/updateBook")
     public boolean updateBook(@RequestBody BookDetail book){

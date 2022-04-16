@@ -3,10 +3,13 @@ package com.example.service.impl;
 import com.example.domain.BookDetail;
 import com.example.dao.BookDetailDao;
 import com.example.service.BookService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -24,8 +27,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDetail> listBooks(String keywords) {
-        return bookDetailDao.listBooks(keywords);
+    public Map<String, Object> listBooks(String keywords, Integer page, Integer pageSize) {
+        Map<String,Object> map = new HashMap<>(2);
+        int total = bookDetailDao.countBooks(keywords);
+        map.put("total",total);
+        if (total == 0) {
+            map.put("books", new ArrayList<BookDetail>());
+            return map;
+        }
+        if (pageSize > total){
+            page = 1;
+            pageSize = total;
+        }
+        PageHelper.startPage(page,pageSize);
+        map.put("books",bookDetailDao.listBooks(keywords));
+        return map;
     }
 
     @Override

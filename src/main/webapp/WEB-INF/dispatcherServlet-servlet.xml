@@ -5,11 +5,11 @@
        http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-
     <context:property-placeholder location="classpath:application.properties"/>
     <context:component-scan base-package="com.example"/>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
+
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="username" value="${spring.datasource.username}"/>
         <property name="password" value="${spring.datasource.password}"/>
@@ -21,7 +21,18 @@
         <!--suppress SpringXmlModelInspection -->
         <property name="mapperLocations" value="${mybatis.mapper-locations}"/>
         <property name="typeAliasesPackage" value="${mybatis.type-aliases-package}"/>
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl"/>
+            </bean>
+        </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor"/>
+            </array>
+        </property>
     </bean>
+
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="${mybatis.mapper-scan-package}"/>
         <property name="processPropertyPlaceHolders" value="true"/>

@@ -45,4 +45,14 @@
             #{id}
         </foreach>
     </delete>
+    <select id="countBooks" resultType="int">
+        select count(*) from book_detail
+        <where>
+            <if test="keywords != null and keywords != ''">
+                name like '%' #{keywords} '%'
+                or author like '%' #{keywords} '%'
+                or press like '%' #{keywords} '%'
+            </if>
+        </where>
+    </select>
 </mapper>

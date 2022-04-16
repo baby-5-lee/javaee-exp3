@@ -3,10 +3,11 @@ package com.example.service;
 import com.example.domain.BookDetail;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
 
-    List<BookDetail> listBooks(String keywords);
+    Map<String, Object> listBooks(String keywords, Integer page, Integer size);
 
     boolean updateBook(BookDetail book);
 

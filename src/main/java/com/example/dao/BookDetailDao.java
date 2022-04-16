@@ -19,6 +19,8 @@ public interface BookDetailDao {
     Integer updateBook(BookDetail book);
 
     Integer deleteBooks(Integer[] ids);
+
+    Integer countBooks(String keywords);
 }
 
 
