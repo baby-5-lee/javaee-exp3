@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class BookController {
     @Resource
     private BookService bookService;
